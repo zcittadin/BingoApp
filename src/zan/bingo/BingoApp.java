@@ -15,18 +15,13 @@ public class BingoApp extends Application {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/zan/bingo/Bingo.fxml"));
 		Parent root = (Parent) loader.load();
 		final Scene scene = new Scene(root);
-
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
 		stage.setScene(scene);
 		stage.setTitle("Bingo!");
-
 		stage.setMinHeight(primaryScreenBounds.getHeight());
 		stage.setMinWidth(primaryScreenBounds.getWidth());
 		stage.setMaximized(true);
-
 		stage.show();
-
 	}
 
 	public static void main(String[] args) {

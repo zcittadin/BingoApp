@@ -39,7 +39,6 @@ public class BingoController implements Initializable {
 		centerY = screenBounds.getHeight() / 2;
 		double r = 30.5;
 		children = bingoPane.getChildren();
-
 		children.forEach(ch -> {
 			if (ch instanceof Button) {
 				((Button) ch).setShape(new Circle(r));
@@ -48,9 +47,6 @@ public class BingoController implements Initializable {
 				((Button) ch).setStyle("-fx-background-color: lightgray; -fx-text-fill: navy;");
 			}
 		});
-
-		// System.out.println(screenBounds.getHeight() / 2);
-		// System.out.println(screenBounds.getWidth() / 2);
 	}
 
 	@FXML
@@ -67,7 +63,6 @@ public class BingoController implements Initializable {
 							toHome(bt);
 						else
 							toCenter(bt);
-
 					}
 				});
 			}
@@ -94,7 +89,6 @@ public class BingoController implements Initializable {
 		trTrans.setToY((centerY - bt.getHeight()) - bt.getLayoutY());
 		trTrans.setCycleCount(1);
 		trTrans.setAutoReverse(false);
-
 		ScaleTransition scTrans = new ScaleTransition(Duration.seconds(1), bt);
 		scTrans.setFromX(1.0);
 		scTrans.setToX(9.0);
@@ -102,7 +96,6 @@ public class BingoController implements Initializable {
 		scTrans.setToY(9.0);
 		scTrans.setCycleCount(1);
 		scTrans.setAutoReverse(false);
-
 		ParallelTransition parTransition = new ParallelTransition();
 		parTransition.setNode(bt);
 		parTransition.getChildren().addAll(trTrans, scTrans);
@@ -120,7 +113,6 @@ public class BingoController implements Initializable {
 		trTrans.setToY(bt.getLayoutBounds().getHeight() - bt.getHeight());
 		trTrans.setCycleCount(1);
 		trTrans.setAutoReverse(false);
-
 		ScaleTransition scTrans = new ScaleTransition(Duration.seconds(1), bt);
 		scTrans.setFromX(9.0);
 		scTrans.setToX(1.0);
@@ -128,7 +120,6 @@ public class BingoController implements Initializable {
 		scTrans.setToY(1.0);
 		scTrans.setCycleCount(1);
 		scTrans.setAutoReverse(false);
-
 		ParallelTransition parTransition = new ParallelTransition();
 		parTransition.setNode(bt);
 		parTransition.getChildren().addAll(trTrans, scTrans);
@@ -149,5 +140,4 @@ public class BingoController implements Initializable {
 			}
 		});
 	}
-
 }
