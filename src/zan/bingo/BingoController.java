@@ -37,7 +37,7 @@ public class BingoController implements Initializable {
 		screenBounds = Screen.getPrimary().getVisualBounds();
 		centerX = screenBounds.getWidth() / 2;
 		centerY = screenBounds.getHeight() / 2;
-		double r = 40.5;
+		double r = 30.5;
 		children = bingoPane.getChildren();
 
 		children.forEach(ch -> {
@@ -97,9 +97,9 @@ public class BingoController implements Initializable {
 
 		ScaleTransition scTrans = new ScaleTransition(Duration.seconds(1), bt);
 		scTrans.setFromX(1.0);
-		scTrans.setToX(7.0);
+		scTrans.setToX(9.0);
 		scTrans.setFromY(1.0);
-		scTrans.setToY(7.0);
+		scTrans.setToY(9.0);
 		scTrans.setCycleCount(1);
 		scTrans.setAutoReverse(false);
 
@@ -122,9 +122,9 @@ public class BingoController implements Initializable {
 		trTrans.setAutoReverse(false);
 
 		ScaleTransition scTrans = new ScaleTransition(Duration.seconds(1), bt);
-		scTrans.setFromX(7.0);
+		scTrans.setFromX(9.0);
 		scTrans.setToX(1.0);
-		scTrans.setFromY(7.0);
+		scTrans.setFromY(9.0);
 		scTrans.setToY(1.0);
 		scTrans.setCycleCount(1);
 		scTrans.setAutoReverse(false);
