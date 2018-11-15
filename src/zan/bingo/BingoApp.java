@@ -23,6 +23,7 @@ public class BingoApp extends Application {
 		stage.setMinWidth(primaryScreenBounds.getWidth());
 		stage.getIcons().add(new Image("/zan/bingo/icon.png"));
 		stage.setMaximized(true);
+		stage.setResizable(false);
 		stage.show();
 	}
 

@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class ConfigController implements Initializable {
@@ -26,15 +27,20 @@ public class ConfigController implements Initializable {
 	private ColorPicker clpBackgroundMarked;
 	@FXML
 	private ColorPicker clpTextFillMarked;
+	@FXML
+	private ColorPicker clpBackScreen;
+	@FXML
+	private Rectangle rectColor;
 
 	private static String BACKGROUND_CLEAR = "background-color-clear";
 	private static String BACKGROUND_MARKED = "background-color-marked";
 	private static String TEXT_CLEAR = "text-fill-clear";
 	private static String TEXT_MARKED = "text-fill-marked";
+	private static String BACKGROUND_SCREEN = "background-color-screen";
 
 	private static double r = 60.0;
 
-	private Preferences prefs;
+//	private Preferences prefs;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -44,14 +50,16 @@ public class ConfigController implements Initializable {
 		clpBackgroundMarked.getStyleClass().add("split-button");
 		clpTextFillMarked.getStyleClass().add("split-button");
 
-		clpBackgroundClear.setOnAction(t -> setBackgroundColor(btSampleClear, clpBackgroundClear.getValue()));
+		clpBackgroundClear.setOnAction(t -> setBackgroundButtonColor(btSampleClear, clpBackgroundClear.getValue()));
 		clpTextFillClear.setOnAction(t -> setTextFillColor(btSampleClear, clpTextFillClear.getValue()));
-		clpBackgroundMarked.setOnAction(t -> setBackgroundColor(btSampleMarked, clpBackgroundMarked.getValue()));
+		clpBackgroundMarked.setOnAction(t -> setBackgroundButtonColor(btSampleMarked, clpBackgroundMarked.getValue()));
 		clpTextFillMarked.setOnAction(t -> setTextFillColor(btSampleMarked, clpTextFillMarked.getValue()));
+		clpBackScreen.setOnAction(
+				t -> rectColor.setFill(Color.web(clpBackScreen.getValue().toString().replace("x", "#").substring(1))));
 
 	}
 
-	private void setBackgroundColor(Button bt, Color color) {
+	private void setBackgroundButtonColor(Button bt, Color color) {
 		String value = color.toString().replace("x", "#").substring(1);
 		String style = bt.getStyle();
 		String[] cssProps = style.split(";");
@@ -67,7 +75,7 @@ public class ConfigController implements Initializable {
 	}
 
 	public void setContext(String backgroundColorClear, String textFillClear, String backgroundColorMarked,
-			String textFillMarked) {
+			String textFillMarked, String backgroundColorScreen) {
 
 		btSampleClear.setShape(new Circle(r));
 		btSampleClear.setMinSize(2 * r, 2 * r);
@@ -81,10 +89,13 @@ public class ConfigController implements Initializable {
 		btSampleMarked.setStyle("-fx-background-color: " + backgroundColorMarked + "; -fx-text-fill: " + textFillMarked
 				+ ";" + " -fx-font-size: 46; -fx-font-weight: bold;");
 
+		rectColor.setFill(Color.web(backgroundColorScreen));
+
 		clpBackgroundClear.setValue(Color.web(backgroundColorClear));
 		clpTextFillClear.setValue(Color.web(textFillClear));
 		clpBackgroundMarked.setValue(Color.web(backgroundColorMarked));
 		clpTextFillMarked.setValue(Color.web(textFillMarked));
+		clpBackScreen.setValue(Color.web(backgroundColorScreen));
 	}
 
 	@FXML
@@ -97,11 +108,12 @@ public class ConfigController implements Initializable {
 		String[] backgroundMarkedProp = cssMarkedProps[0].split(":");
 		String[] textFillMarkedProp = cssMarkedProps[1].split(":");
 
-		prefs = Preferences.userRoot().node("config");
+		Preferences prefs = Preferences.userRoot().node("config_bingo");
 		prefs.put(BACKGROUND_CLEAR, backgroundClearProp[1].trim());
 		prefs.put(BACKGROUND_MARKED, backgroundMarkedProp[1].trim());
 		prefs.put(TEXT_CLEAR, textFillClearProp[1].trim());
 		prefs.put(TEXT_MARKED, textFillMarkedProp[1].trim());
+		prefs.put(BACKGROUND_SCREEN, clpBackScreen.getValue().toString().replace("x", "#").substring(1));
 		close();
 	}
 

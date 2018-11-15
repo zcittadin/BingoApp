@@ -26,6 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -49,14 +50,17 @@ public class BingoController implements Initializable {
 	private static String textFillClear;
 	private static String backgroundColorMarked;
 	private static String textFillMarked;
+	private static String backgroundColorScreen;
 
 	private static String BACKGROUND_CLEAR = "background-color-clear";
 	private static String BACKGROUND_MARKED = "background-color-marked";
 	private static String TEXT_CLEAR = "text-fill-clear";
 	private static String TEXT_MARKED = "text-fill-marked";
+	private static String BACKGROUND_SCREEN = "background-color-screen";
 
 	private double centerX;
 	private double centerY;
+	private double BIG_SIZE = 10.5;
 	private boolean isCentered = false;
 
 	private Collection<Node> children;
@@ -81,6 +85,7 @@ public class BingoController implements Initializable {
 				statusMap.put((Button) ch, false);
 			}
 		});
+		bingoPane.setStyle("-fx-background-color: " + backgroundColorScreen);
 	}
 
 	@FXML
@@ -143,9 +148,9 @@ public class BingoController implements Initializable {
 		trTrans.setAutoReverse(false);
 		ScaleTransition scTrans = new ScaleTransition(Duration.seconds(1), bt);
 		scTrans.setFromX(1.0);
-		scTrans.setToX(9.0);
+		scTrans.setToX(BIG_SIZE);
 		scTrans.setFromY(1.0);
-		scTrans.setToY(9.0);
+		scTrans.setToY(BIG_SIZE);
 		scTrans.setCycleCount(1);
 		scTrans.setAutoReverse(false);
 		ParallelTransition parTransition = new ParallelTransition();
@@ -166,9 +171,9 @@ public class BingoController implements Initializable {
 		trTrans.setCycleCount(1);
 		trTrans.setAutoReverse(false);
 		ScaleTransition scTrans = new ScaleTransition(Duration.seconds(1), bt);
-		scTrans.setFromX(9.0);
+		scTrans.setFromX(BIG_SIZE);
 		scTrans.setToX(1.0);
-		scTrans.setFromY(9.0);
+		scTrans.setFromY(BIG_SIZE);
 		scTrans.setToY(1.0);
 		scTrans.setCycleCount(1);
 		scTrans.setAutoReverse(false);
@@ -183,7 +188,7 @@ public class BingoController implements Initializable {
 
 	private void cancelMarked(Button bt) {
 		Optional<ButtonType> result = makeConfirm("Confirmar cancelamento",
-				"Tem certeza que deseja cancelar a bolinha sorteada?");
+				"Deseja cancelar a bolinha sorteada?");
 		if (result.get() == ButtonType.OK) {
 			statusMap.put(bt, false);
 			bt.setStyle("-fx-background-color: " + backgroundColorClear + "; -fx-text-fill: " + textFillClear + ";");
@@ -219,8 +224,8 @@ public class BingoController implements Initializable {
 			stage.setScene(new Scene(root));
 			stage.getIcons().add(new Image("/zan/bingo/icon.png"));
 			((ConfigController) fxmlloader.getController()).setContext(backgroundColorClear, textFillClear,
-					backgroundColorMarked, textFillMarked);
-			stage.setTitle("Configurações");
+					backgroundColorMarked, textFillMarked, backgroundColorScreen);
+			stage.setTitle("Configurações de cores");
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.initOwner(bingoPane.getScene().getWindow());
 			stage.setResizable(Boolean.FALSE);
@@ -233,6 +238,7 @@ public class BingoController implements Initializable {
 
 	private void updateColors() {
 		loadPrefs();
+		bingoPane.setStyle("-fx-background-color: " + backgroundColorScreen);
 		statusMap.keySet().forEach(bt -> {
 			if (statusMap.get(bt) == true) {
 				bt.setStyle(
@@ -245,15 +251,18 @@ public class BingoController implements Initializable {
 	}
 
 	private void loadPrefs() {
-		prefs = Preferences.userRoot().node("config");
+		prefs = Preferences.userRoot().node("config_bingo");
 		backgroundColorClear = prefs.get(BACKGROUND_CLEAR, "lightgray");
 		backgroundColorMarked = prefs.get(BACKGROUND_MARKED, "green");
 		textFillClear = prefs.get(TEXT_CLEAR, "navy");
 		textFillMarked = prefs.get(TEXT_MARKED, "white");
+		backgroundColorScreen = prefs.get(BACKGROUND_SCREEN, "#001231");
 	}
 
 	private Optional<ButtonType> makeConfirm(String title, String message) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("/zan/bingo/icon.png"));
 		alert.setTitle(title);
 		alert.setHeaderText(message);
 		Optional<ButtonType> result = alert.showAndWait();
