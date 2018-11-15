@@ -18,12 +18,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
@@ -37,8 +37,6 @@ public class BingoController implements Initializable {
 
 	@FXML
 	private Pane bingoPane;
-
-	private static Rectangle2D screenBounds;
 
 	private static String backgroundColorClear;
 	private static String textFillClear;
@@ -62,9 +60,8 @@ public class BingoController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		loadPrefs();
-		screenBounds = Screen.getPrimary().getVisualBounds();
-		centerX = screenBounds.getWidth() / 2;
-		centerY = screenBounds.getHeight() / 2;
+		centerX = Screen.getPrimary().getVisualBounds().getWidth() / 2;
+		centerY = Screen.getPrimary().getVisualBounds().getHeight() / 2;
 		double r = 30.5;
 		children = bingoPane.getChildren();
 		children.forEach(ch -> {
@@ -199,6 +196,7 @@ public class BingoController implements Initializable {
 			fxmlloader.setBuilderFactory(new JavaFXBuilderFactory());
 			root = (Parent) fxmlloader.load(url.openStream());
 			stage.setScene(new Scene(root));
+			stage.getIcons().add(new Image("/zan/bingo/icon.png"));
 			((ConfigController) fxmlloader.getController()).setContext(backgroundColorClear, textFillClear,
 					backgroundColorMarked, textFillMarked);
 			stage.setTitle("Configurações");

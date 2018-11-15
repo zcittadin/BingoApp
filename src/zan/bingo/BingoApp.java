@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -20,6 +21,7 @@ public class BingoApp extends Application {
 		stage.setTitle("Bingo!");
 		stage.setMinHeight(primaryScreenBounds.getHeight());
 		stage.setMinWidth(primaryScreenBounds.getWidth());
+		stage.getIcons().add(new Image("/zan/bingo/icon.png"));
 		stage.setMaximized(true);
 		stage.show();
 	}

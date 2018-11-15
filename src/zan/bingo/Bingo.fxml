@@ -53,7 +53,7 @@
       </Button>
       <AnchorPane fx:id="paneButton" layoutX="1200.0" layoutY="600.0" prefHeight="93.0" prefWidth="152.0">
          <children>
-            <Button fx:id="btReset" layoutX="14.0" layoutY="3.0" mnemonicParsing="false" onAction="#resetBingo" prefHeight="38.0" prefWidth="134.0" text="REINICIAR">
+            <Button fx:id="btReset" layoutX="14.0" layoutY="3.0" mnemonicParsing="false" onAction="#resetBingo" prefHeight="38.0" prefWidth="134.0" text="REINICIAR" textFill="NAVY">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -61,7 +61,7 @@
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button fx:id="btConfig" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#openConfig" prefHeight="38.0" prefWidth="134.0" text="CONFIGURAR">
+            <Button fx:id="btConfig" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#openConfig" prefHeight="38.0" prefWidth="134.0" text="CONFIGURAR" textFill="NAVY">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
