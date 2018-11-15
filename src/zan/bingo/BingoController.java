@@ -3,6 +3,9 @@ package zan.bingo;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -19,7 +22,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
@@ -49,13 +55,13 @@ public class BingoController implements Initializable {
 	private boolean isCentered = false;
 
 	private Collection<Node> children;
+	private Map<Button, Boolean> statusMap = new HashMap<Button, Boolean>();
+
 	private Preferences prefs;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 		loadPrefs();
-
 		screenBounds = Screen.getPrimary().getVisualBounds();
 		centerX = screenBounds.getWidth() / 2;
 		centerY = screenBounds.getHeight() / 2;
@@ -68,6 +74,7 @@ public class BingoController implements Initializable {
 				((Button) ch).setMaxSize(2 * r, 2 * r);
 				((Button) ch).setStyle(
 						"-fx-background-color: " + backgroundColorClear + "; -fx-text-fill: " + textFillClear + ";");
+				statusMap.put((Button) ch, false);
 			}
 		});
 	}
@@ -103,6 +110,10 @@ public class BingoController implements Initializable {
 	}
 
 	private void toCenter(Button bt) {
+		if (statusMap.get(bt) == true) {
+			cancelMarked(bt);
+			return;
+		}
 		isCentered = true;
 		bt.toFront();
 		TranslateTransition trTrans = new TranslateTransition(Duration.seconds(1), bt);
@@ -148,8 +159,17 @@ public class BingoController implements Initializable {
 		parTransition.getChildren().addAll(trTrans, scTrans);
 		parTransition.setCycleCount(1);
 		parTransition.play();
-		bt.setOnAction(null);
 		bt.setStyle("-fx-background-color: " + backgroundColorMarked + "; -fx-text-fill: " + textFillMarked + ";");
+		statusMap.put(bt, true);
+	}
+
+	private void cancelMarked(Button bt) {
+		Optional<ButtonType> result = makeConfirm("Confirmar cancelamento",
+				"Tem certeza que deseja cancelar a bolinha sorteada?");
+		if (result.get() == ButtonType.OK) {
+			statusMap.put(bt, false);
+			bt.setStyle("-fx-background-color: " + backgroundColorClear + "; -fx-text-fill: " + textFillClear + ";");
+		}
 	}
 
 	@FXML
@@ -162,6 +182,7 @@ public class BingoController implements Initializable {
 				((Button) ch).setOnAction(ev -> {
 					translateButton(ev);
 				});
+				statusMap.put((Button) ch, false);
 			}
 		});
 	}
@@ -185,17 +206,38 @@ public class BingoController implements Initializable {
 			stage.initOwner(bingoPane.getScene().getWindow());
 			stage.setResizable(Boolean.FALSE);
 			stage.showAndWait();
+			updateColors();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	@FXML
+	private void updateColors() {
+		loadPrefs();
+		statusMap.keySet().forEach(bt -> {
+			if (statusMap.get(bt) == true) {
+				bt.setStyle(
+						"-fx-background-color: " + backgroundColorMarked + "; -fx-text-fill: " + textFillMarked + ";");
+			} else {
+				bt.setStyle(
+						"-fx-background-color: " + backgroundColorClear + "; -fx-text-fill: " + textFillClear + ";");
+			}
+		});
+	}
+
 	private void loadPrefs() {
 		prefs = Preferences.userRoot().node("config");
 		backgroundColorClear = prefs.get(BACKGROUND_CLEAR, "lightgray");
 		backgroundColorMarked = prefs.get(BACKGROUND_MARKED, "green");
 		textFillClear = prefs.get(TEXT_CLEAR, "navy");
 		textFillMarked = prefs.get(TEXT_MARKED, "white");
+	}
+
+	private Optional<ButtonType> makeConfirm(String title, String message) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(message);
+		Optional<ButtonType> result = alert.showAndWait();
+		return result;
 	}
 }

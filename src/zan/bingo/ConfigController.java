@@ -19,8 +19,6 @@ public class ConfigController implements Initializable {
 	@FXML
 	private Button btSampleMarked;
 	@FXML
-	private Button btOk;
-	@FXML
 	private ColorPicker clpBackgroundClear;
 	@FXML
 	private ColorPicker clpTextFillClear;
@@ -34,7 +32,7 @@ public class ConfigController implements Initializable {
 	private static String TEXT_CLEAR = "text-fill-clear";
 	private static String TEXT_MARKED = "text-fill-marked";
 
-	private double r = 60.0;
+	private static double r = 60.0;
 
 	private Preferences prefs;
 
@@ -109,7 +107,7 @@ public class ConfigController implements Initializable {
 
 	@FXML
 	private void close() {
-		Stage stage = (Stage) btOk.getScene().getWindow();
+		Stage stage = (Stage) btSampleClear.getScene().getWindow();
 		stage.close();
 	}
 
