@@ -11,7 +11,7 @@
 
 <Pane fx:id="bingoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="738.0" prefWidth="1366.0" style="-fx-background-color: #001231;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="zan.bingo.BingoController">
    <children>
-      <ImageView fx:id="imgBackground" fitHeight="738.0" fitWidth="1171.0" layoutX="125.0" opacity="0.1" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgBackground" fitHeight="738.0" fitWidth="1171.0" layoutX="125.0" opacity="0.2" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@bingo.jpg" />
          </image>
@@ -51,9 +51,17 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <AnchorPane fx:id="paneButton" layoutX="1200.0" layoutY="652.0" prefHeight="35.0" prefWidth="152.0">
+      <AnchorPane fx:id="paneButton" layoutX="1200.0" layoutY="600.0" prefHeight="93.0" prefWidth="152.0">
          <children>
-            <Button fx:id="btReset" layoutX="14.0" layoutY="3.0" mnemonicParsing="false" onAction="#resetBingo" prefHeight="25.0" prefWidth="125.0" text="REINICIAR">
+            <Button fx:id="btReset" layoutX="14.0" layoutY="3.0" mnemonicParsing="false" onAction="#resetBingo" prefHeight="38.0" prefWidth="134.0" text="REINICIAR">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Button>
+            <Button fx:id="btConfig" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#openConfig" prefHeight="38.0" prefWidth="134.0" text="CONFIGURAR">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
