@@ -23,9 +23,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
@@ -37,6 +38,12 @@ public class BingoController implements Initializable {
 
 	@FXML
 	private Pane bingoPane;
+	@FXML
+	private AnchorPane buttonPane;
+	@FXML
+	private Button btReset;
+	@FXML
+	private Button btConfig;
 
 	private static String backgroundColorClear;
 	private static String textFillClear;
@@ -95,6 +102,7 @@ public class BingoController implements Initializable {
 			}
 		});
 		Platform.runLater(new Runnable() {
+
 			@Override
 			public void run() {
 				if (!isCentered) {
@@ -103,7 +111,20 @@ public class BingoController implements Initializable {
 					});
 				}
 			}
+
 		});
+	}
+
+	@FXML
+	private void enableButtons() {
+		btReset.setDisable(false);
+		btConfig.setDisable(false);
+	}
+
+	@FXML
+	private void disableButtons() {
+		btReset.setDisable(true);
+		btConfig.setDisable(true);
 	}
 
 	private void toCenter(Button bt) {
