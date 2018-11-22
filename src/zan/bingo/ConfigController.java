@@ -40,8 +40,6 @@ public class ConfigController implements Initializable {
 
 	private static double r = 60.0;
 
-//	private Preferences prefs;
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -99,7 +97,7 @@ public class ConfigController implements Initializable {
 	}
 
 	@FXML
-	private void save() throws Exception {
+	private void save() {
 		String[] cssClearProps = btSampleClear.getStyle().split(";");
 		String[] backgroundClearProp = cssClearProps[0].split(":");
 		String[] textFillClearProp = cssClearProps[1].split(":");

@@ -26,7 +26,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -146,18 +145,18 @@ public class BingoController implements Initializable {
 		trTrans.setToY((centerY - bt.getHeight()) - bt.getLayoutY());
 		trTrans.setCycleCount(1);
 		trTrans.setAutoReverse(false);
-		ScaleTransition scTrans = new ScaleTransition(Duration.seconds(1), bt);
-		scTrans.setFromX(1.0);
-		scTrans.setToX(BIG_SIZE);
-		scTrans.setFromY(1.0);
-		scTrans.setToY(BIG_SIZE);
-		scTrans.setCycleCount(1);
-		scTrans.setAutoReverse(false);
-		ParallelTransition parTransition = new ParallelTransition();
-		parTransition.setNode(bt);
-		parTransition.getChildren().addAll(trTrans, scTrans);
-		parTransition.setCycleCount(1);
-		parTransition.play();
+		ScaleTransition scaleTrans = new ScaleTransition(Duration.seconds(1), bt);
+		scaleTrans.setFromX(1.0);
+		scaleTrans.setToX(BIG_SIZE);
+		scaleTrans.setFromY(1.0);
+		scaleTrans.setToY(BIG_SIZE);
+		scaleTrans.setCycleCount(1);
+		scaleTrans.setAutoReverse(false);
+		ParallelTransition parallelTrans = new ParallelTransition();
+		parallelTrans.setNode(bt);
+		parallelTrans.getChildren().addAll(trTrans, scaleTrans);
+		parallelTrans.setCycleCount(1);
+		parallelTrans.play();
 	}
 
 	private void toHome(Button bt) {
@@ -170,25 +169,24 @@ public class BingoController implements Initializable {
 		trTrans.setToY(bt.getLayoutBounds().getHeight() - bt.getHeight());
 		trTrans.setCycleCount(1);
 		trTrans.setAutoReverse(false);
-		ScaleTransition scTrans = new ScaleTransition(Duration.seconds(1), bt);
-		scTrans.setFromX(BIG_SIZE);
-		scTrans.setToX(1.0);
-		scTrans.setFromY(BIG_SIZE);
-		scTrans.setToY(1.0);
-		scTrans.setCycleCount(1);
-		scTrans.setAutoReverse(false);
-		ParallelTransition parTransition = new ParallelTransition();
-		parTransition.setNode(bt);
-		parTransition.getChildren().addAll(trTrans, scTrans);
-		parTransition.setCycleCount(1);
-		parTransition.play();
+		ScaleTransition scaleTrans = new ScaleTransition(Duration.seconds(1), bt);
+		scaleTrans.setFromX(BIG_SIZE);
+		scaleTrans.setToX(1.0);
+		scaleTrans.setFromY(BIG_SIZE);
+		scaleTrans.setToY(1.0);
+		scaleTrans.setCycleCount(1);
+		scaleTrans.setAutoReverse(false);
+		ParallelTransition parallelTrans = new ParallelTransition();
+		parallelTrans.setNode(bt);
+		parallelTrans.getChildren().addAll(trTrans, scaleTrans);
+		parallelTrans.setCycleCount(1);
+		parallelTrans.play();
 		bt.setStyle("-fx-background-color: " + backgroundColorMarked + "; -fx-text-fill: " + textFillMarked + ";");
 		statusMap.put(bt, true);
 	}
 
 	private void cancelMarked(Button bt) {
-		Optional<ButtonType> result = makeConfirm("Confirmar cancelamento",
-				"Deseja cancelar a bolinha sorteada?");
+		Optional<ButtonType> result = makeConfirm("Confirmar cancelamento", "Deseja cancelar a bolinha sorteada?");
 		if (result.get() == ButtonType.OK) {
 			statusMap.put(bt, false);
 			bt.setStyle("-fx-background-color: " + backgroundColorClear + "; -fx-text-fill: " + textFillClear + ";");
@@ -202,9 +200,6 @@ public class BingoController implements Initializable {
 			if (ch instanceof Button) {
 				((Button) ch).setStyle(
 						"-fx-background-color: " + backgroundColorClear + "; -fx-text-fill: " + textFillClear + ";");
-				((Button) ch).setOnAction(ev -> {
-					translateButton(ev);
-				});
 				statusMap.put((Button) ch, false);
 			}
 		});
